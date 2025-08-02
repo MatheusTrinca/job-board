@@ -8,7 +8,7 @@ type Query {
 
 type JobSubList {
   items: [Job!]
-  count: Int!
+  totalCount: Int!
 }
 
 # Mutations

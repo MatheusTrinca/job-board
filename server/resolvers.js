@@ -2,6 +2,7 @@ import {
   createJob,
   deleteJob,
   getJob,
+  getJobCount,
   getJobs,
   getJobsByCompany,
   updateJob,

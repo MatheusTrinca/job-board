@@ -5,7 +5,10 @@ import { JOB_FRAGMENT, COMPANY_WITH_JOBS_FRAGMENT } from './fragments';
 export const JOBS_QUERY = gql`
   query Jobs($limit: Int, $offset: Int) {
     jobs(limit: $limit, offset: $offset) {
-      ...JobInfo
+      items {
+        ...JobInfo
+      }
+      totalCount
     }
   }
   ${JOB_FRAGMENT}
