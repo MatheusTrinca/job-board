@@ -3,8 +3,8 @@ import { JOB_FRAGMENT, COMPANY_WITH_JOBS_FRAGMENT } from './fragments';
 
 // Queries
 export const JOBS_QUERY = gql`
-  query Jobs {
-    jobs {
+  query Jobs($limit: Int, $offset: Int) {
+    jobs(limit: $limit, offset: $offset) {
       ...JobInfo
     }
   }

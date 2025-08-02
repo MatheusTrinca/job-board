@@ -11,7 +11,12 @@ import { GraphQLError } from 'graphql';
 
 export const resolvers = {
   Query: {
-    jobs: () => getJobs(),
+    jobs: async (_root, { limit, offset }) => {
+      const items = await getJobs(limit, offset);
+      const totalCount = await getJobCount();
+
+      return { items, totalCount };
+    },
 
     job: async (_, { id }) => {
       const job = await getJob(id);
@@ -76,7 +81,8 @@ export const resolvers = {
 
   Job: {
     date: job => toISODate(job.createdAt),
-    company: job => getCompany(job.companyId),
+    company: (job, _args, { companyLoader }) =>
+      companyLoader.load(job.companyId),
   },
 };
 

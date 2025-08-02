@@ -8,6 +8,7 @@ import { readFile } from 'node:fs/promises';
 import { authMiddleware, handleLogin } from './auth.js';
 import { resolvers } from './resolvers.js';
 import { getUser } from './db/users.js';
+import { createCompanyLoader } from './db/companies.js';
 
 const PORT = 9000;
 
@@ -29,11 +30,12 @@ app.use(cors(), express.json());
 app.post('/login', handleLogin);
 
 async function getContext({ req }) {
+  const context = {};
   if (req.auth) {
-    const user = await getUser(req.auth.sub);
-    return { user };
+    context.user = await getUser(req.auth.sub);
   }
-  return {};
+  context.companyLoader = createCompanyLoader();
+  return context;
 }
 
 app.use(authMiddleware, apolloMiddleware(server, { context: getContext }));
